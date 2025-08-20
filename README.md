@@ -17,11 +17,6 @@
 - 🚀 **Enterprise deployment** - Multi-shop cloud platform, global scaling
 - 📚 **Professional documentation** - Tuning methodology, legal compliance, training
 
-## 🎯 Target Market
-- **$2.8B+ automotive aftermarket industry**
-- **High-value customers** - Performance enthusiasts, racing teams, tuning shops
-- **Professional tools** - Used by NASCAR, Formula Drift, NHRA teams
-- **Global reach** - Franchise operations, multi-region support
 
 ## 🏁 Getting Started
 ```bash

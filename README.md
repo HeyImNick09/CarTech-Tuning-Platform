@@ -45,7 +45,7 @@ npm run dev
 - 🛡️ **Insurance integration** - Modified vehicle coverage support
 
 ## 📞 Support
-- 📧 Email: support@cartech-platform.com
-- 📱 Phone: 1-800-CARTECH
-- 🌐 Web: https://cartech-platform.com
-- 📚 Documentation: https://docs.cartech-platform.com
+- 📧 Email: 
+- 📱 Phone: 
+- 🌐 Web: 
+- 📚 Documentation: 

@@ -1,0 +1,126 @@
+version: '3.8'
+
+services:
+  # 🗃️ PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: cartech-postgres
+    environment:
+      POSTGRES_DB: cartech_platform
+      POSTGRES_USER: cartech_user
+      POSTGRES_PASSWORD: cartech_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./backend/src/db/migrations:/docker-entrypoint-initdb.d
+    networks:
+      - cartech-network
+
+  # 📈 InfluxDB Time Series Database
+  influxdb:
+    image: influxdb:2.7-alpine
+    container_name: cartech-influxdb
+    environment:
+      DOCKER_INFLUXDB_INIT_MODE: setup
+      DOCKER_INFLUXDB_INIT_USERNAME: cartech_admin
+      DOCKER_INFLUXDB_INIT_PASSWORD: cartech_influx_password
+      DOCKER_INFLUXDB_INIT_ORG: cartech-platform
+      DOCKER_INFLUXDB_INIT_BUCKET: performance-data
+    ports:
+      - "8086:8086"
+    volumes:
+      - influxdb_data:/var/lib/influxdb2
+    networks:
+      - cartech-network
+
+  # 🔄 Redis Cache
+  redis:
+    image: redis:7-alpine
+    container_name: cartech-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - cartech-network
+
+  # 🌐 Backend API
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: cartech-backend
+    environment:
+      NODE_ENV: development
+      DATABASE_URL: postgresql://cartech_user:cartech_password@postgres:5432/cartech_platform
+      REDIS_URL: redis://redis:6379
+      INFLUXDB_URL: http://influxdb:8086
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres
+      - redis
+      - influxdb
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    networks:
+      - cartech-network
+
+  # 💻 Web Frontend
+  web:
+    build:
+      context: ./web
+      dockerfile: Dockerfile
+    container_name: cartech-web
+    environment:
+      REACT_APP_API_URL: http://localhost:3000
+    ports:
+      - "3001:3000"
+    depends_on:
+      - backend
+    volumes:
+      - ./web:/app
+      - /app/node_modules
+    networks:
+      - cartech-network
+
+  # 📊 Grafana Monitoring
+  grafana:
+    image: grafana/grafana:10.0.0
+    container_name: cartech-grafana
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: cartech_grafana_password
+    ports:
+      - "3002:3000"
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./infrastructure/monitoring/grafana:/etc/grafana/provisioning
+    depends_on:
+      - influxdb
+    networks:
+      - cartech-network
+
+  # 🔍 Prometheus Metrics
+  prometheus:
+    image: prom/prometheus:v2.45.0
+    container_name: cartech-prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./infrastructure/monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    networks:
+      - cartech-network
+
+volumes:
+  postgres_data:
+  influxdb_data:
+  redis_data:
+  grafana_data:
+  prometheus_data:
+
+networks:
+  cartech-network:
+    driver: bridge

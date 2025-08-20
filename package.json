@@ -1,0 +1,60 @@
+{
+  "name": "cartech-tuning-platform",
+  "version": "1.0.0",
+  "description": "🏎️ Professional Automotive ECU Tuning & Performance Management System",
+  "main": "index.js",
+  "scripts": {
+    "dev": "concurrently \"npm run backend:dev\" \"npm run web:dev\"",
+    "backend:dev": "cd backend && npm run dev",
+    "web:dev": "cd web && npm start",
+    "mobile:customer": "cd mobile/cartech-customer && npm start",
+    "mobile:technician": "cd mobile/cartech-technician && npm start",
+    "build": "npm run backend:build && npm run web:build",
+    "backend:build": "cd backend && npm run build",
+    "web:build": "cd web && npm run build",
+    "test": "npm run backend:test && npm run web:test",
+    "backend:test": "cd backend && npm test",
+    "web:test": "cd web && npm test",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "format": "prettier --write .",
+    "docker:build": "docker-compose build",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "k8s:deploy": "kubectl apply -f infrastructure/kubernetes/",
+    "terraform:init": "cd infrastructure/terraform && terraform init",
+    "terraform:plan": "cd infrastructure/terraform && terraform plan",
+    "terraform:apply": "cd infrastructure/terraform && terraform apply"
+  },
+  "keywords": [
+    "automotive",
+    "ecu-tuning",
+    "performance",
+    "dyno",
+    "obd2",
+    "can-bus",
+    "engine-management",
+    "turbo",
+    "racing",
+    "motorsports"
+  ],
+  "author": "CarTech Platform Team",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^8.2.0",
+    "eslint": "^8.45.0",
+    "prettier": "^3.0.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0"
+  },
+  "workspaces": [
+    "backend",
+    "web",
+    "mobile/cartech-customer",
+    "mobile/cartech-technician",
+    "shared"
+  ],
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  }
+}

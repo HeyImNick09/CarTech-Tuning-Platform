@@ -1,0 +1,104 @@
+# 🏎️ CarTech Platform - Git Ignore
+
+# 📦 Dependencies
+node_modules/
+*/node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# 🔐 Environment Variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# 📊 Database
+*.db
+*.sqlite
+*.sqlite3
+database.json
+
+# 🗂️ Build Output
+build/
+dist/
+out/
+.next/
+.nuxt/
+
+# 📱 Mobile
+*.ipa
+*.apk
+*.aab
+android/app/build/
+ios/build/
+*.xcworkspace
+*.xcuserdata
+
+# 🔧 ECU Communication
+*.bin
+*.hex
+*.cal
+*.tune
+ecu_dumps/
+calibration_backups/
+
+# 📈 Performance Data
+dyno_logs/
+*.csv
+*.log
+performance_data/
+telemetry/
+
+# 🛠️ IDE & Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# 📊 Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# ☁️ Cloud & Deployment
+.terraform/
+*.tfstate
+*.tfstate.*
+.terraform.lock.hcl
+
+# 🐳 Docker
+.dockerignore
+docker-compose.override.yml
+
+# 📱 React Native
+.expo/
+.expo-shared/
+
+# 🔍 Testing
+coverage/
+.nyc_output/
+test-results/
+junit.xml
+
+# 🗂️ OS Generated
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# 🔐 Security
+*.pem
+*.key
+*.crt
+*.p12
+secrets/
